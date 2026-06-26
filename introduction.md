@@ -1,117 +1,128 @@
 ---
-title: 'introduction'
-teaching: 10
-exercises: 2
+title: Introduction
+teaching: 5
+exercises: 0
 ---
 
-:::::::::::::::::::::::::::::::::::::: questions 
+::::::::::::::::::::::::::::::::::::::: objectives
 
-- How do you write a lesson using R Markdown and `{sandpaper}`?
+- Recognise scientific questions that could be solved with image processing / computer vision.
+- Recognise morphometric problems (those dealing with the number, size, or shape of the objects in an image).
 
-::::::::::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
-::::::::::::::::::::::::::::::::::::: objectives
+:::::::::::::::::::::::::::::::::::::::: questions
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- What sort of scientific questions can we answer with image processing / computer vision?
+- What are morphometric problems?
 
-::::::::::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Introduction
+As computer systems have become faster and more powerful,
+and cameras and other imaging systems have become commonplace
+in many other areas of life,
+the need has grown for researchers to be able to
+process and analyse image data.
+Considering the large volumes of data that can be involved -
+high-resolution images that take up a lot of disk space/virtual memory,
+and/or collections of many images that must be processed together -
+and the time-consuming and error-prone nature of manual processing,
+it can be advantageous or even necessary for this processing and analysis
+to be automated as a computer program.
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
-[R Markdown][r-markdown] for dynamic files that can render code into output
-(with extension `.Rmd`). Please refer to the [Introduction to The Carpentries
-Workbench][carpentries-workbench] for full documentation.
+This lesson introduces an open source toolkit for processing image data:
+the Python programming language
+and [the *scikit-image* (`skimage`) library](https://scikit-image.org/).
+With careful experimental design,
+Python code can be a powerful instrument in answering many different kinds of questions.
 
-What you need to know is that there are three sections required for a valid
-Carpentries lesson template:
+## Uses of Image Processing in Research
 
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
+Automated processing can be used to analyse many different properties of an image,
+including the distribution and change in colours in the image,
+the number, size, position, orientation, and shape of objects in the image,
+and even - when combined with machine learning techniques for object recognition -
+the type of objects in the image.
 
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+Some examples of image processing methods applied in research include:
 
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
+- [Imaging a black hole](https://iopscience.iop.org/article/10.3847/2041-8213/ab0e85)
+- [Segmentation of liver and vessels from CT images](https://doi.org/10.1016/j.cmpb.2017.12.008)
+- [Monitoring wading birds in the Everglades using drones](https://dx.doi.org/10.1002/rse2.421) ([Blog article summarizing the paper](https://jabberwocky.weecology.org/2024/07/29/monitoring-wading-birds-in-near-real-time-using-drones-and-computer-vision/))
+- [Estimating the population of emperor penguins](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3325796/)
+- [Global-scale analysis of marine plankton diversity](https://www.cell.com/cell/fulltext/S0092-8674\(19\)31124-9)
 
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+With this lesson,
+we aim to provide a thorough grounding in the fundamental concepts and skills
+of working with image data in Python.
+Most of the examples used in this lesson focus on
+one particular class of image processing technique, *morphometrics*,
+but what you will learn can be used to solve a much wider range of problems.
 
-::::::::::::::::::::::::::::::::::::: challenge 
+## Morphometrics
 
-## Challenge 1: Can you do it?
+Morphometrics involves counting the number of objects in an image,
+analyzing the size of the objects,
+or analyzing the shape of the objects.
+For example, we might be interested in automatically counting
+the number of bacterial colonies growing in a Petri dish,
+as shown in this image:
 
-What is the output of this command?
+![](fig/intro/colonies-01.jpg){alt='Bacteria colony'}
 
-```r
-paste("This", "new", "lesson", "looks", "good")
-```
+We could use image processing to find the colonies, count them,
+and then highlight their locations on the original image,
+resulting in an image like this:
 
-:::::::::::::::::::::::: solution 
+![](fig/intro/colony-mask.png){alt='Colonies counted'}
 
-## Output
- 
-```output
-[1] "This new lesson looks good"
-```
+:::::::::::::::::::::::::::::::::::::::::  callout
 
-:::::::::::::::::::::::::::::::::
+## Why write a program to do that?
+
+Note that you can easily manually count the number of bacteria colonies
+shown in the morphometric example above.
+Why should we learn how to write a Python program to do a task
+we could easily perform with our own eyes?
+There are at least two reasons to learn how to perform tasks like these
+with Python and scikit-image:
+
+1. What if there are many more bacteria colonies in the Petri dish?
+  For example, suppose the image looked like this:
+
+![](fig/intro/colonies-03.jpg){alt='Bacteria colony'}
+
+Manually counting the colonies in that image would present more of a challenge.
+A Python program using scikit-image could count the number of colonies more accurately,
+and much more quickly, than a human could.
+
+2. What if you have hundreds, or thousands, of images to consider?
+  Imagine having to manually count colonies on several thousand images
+  like those above.
+  A Python program using scikit-image could move through all of the images in seconds;
+  how long would a graduate student require to do the task?
+  Which process would be more accurate and repeatable?
+
+As you can see, the simple image processing / computer vision techniques you
+will learn during this workshop can be very valuable tools for scientific
+research.
 
 
-## Challenge 2: how do you nest solutions within challenge blocks?
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::: solution 
+As we move through this workshop,
+we will learn image analysis methods useful for many different scientific problems.
+These will be linked together
+and applied to a real problem in the final end-of-workshop
+[capstone challenge](09-challenges.md).
 
-You can add a line with at least three colons and a `solution` tag.
+Let's get started,
+by learning some basics about how images are represented and stored digitally.
 
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::::::::: keypoints
 
-## Figures
+- Simple Python and scikit-image techniques can be used to solve genuine image analysis problems.
+- Morphometric problems involve the number, shape, and / or size of the objects in an image.
 
-You can include figures generated from R Markdown:
-
-
-``` r
-pie(
-  c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
-  init.angle = 315, 
-  col = c("deepskyblue", "yellow", "yellow3"), 
-  border = FALSE
-)
-```
-
-<div class="figure" style="text-align: center">
-<img src="fig/introduction-rendered-pyramid-1.png" alt="pie chart illusion of a pyramid"  />
-<p class="caption">Sun arise each and every morning</p>
-</div>
-Or you can use pandoc markdown for static figures with the following syntax:
-
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
-
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
-
-## Math
-
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
-
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
-
-Cool, right?
-
-::::::::::::::::::::::::::::::::::::: keypoints 
-
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
-
-::::::::::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
