@@ -5,7 +5,7 @@ title: Setup
 Please download Fiji for your operating system as described in the Software Setup section below.  
 Fiji is a powerful, "batteries-included" distribution of ImageJ2 software designed specifically for scientific image analysis. It is heavily favoured by researchers and biologists for its ability to handle complex, multi-dimensional data and automate workflows.
 
-![](fig/fiji.svg)
+![](fig/fiji.svg){alt=""}
 
 ### Key Reasons to Use Fiji
 
