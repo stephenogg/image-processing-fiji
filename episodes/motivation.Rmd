@@ -67,7 +67,10 @@ For example, we might be interested in automatically counting
 the number of bacterial colonies growing in a Petri dish,
 as shown in this image:
 
-![a few bacterial colonies on a petri dish](fig/intro/colonies-01.jpg){: .no-invert}
+```{r colonies-image, echo=FALSE, out.extra="class='no-invert figure mx-auto d-block'", fig.alt="a few bacterial colonies on a petri dish"}
+knitr::include_graphics("fig/intro/colonies-01.jpg")
+```
+
 
 We could use image processing to find the colonies, count them,
 and then highlight their locations on the original image,
