@@ -10,14 +10,14 @@
 # incubator: The Carpentries Incubator
 # Note that you can also use a custom carpentry type. For more info,
 # see the documentation: https://carpentries.github.io/sandpaper-docs/editing.html
-carpentry: 'incubator'
+carpentry: 'dc'
 
 # Custom carpentry description
 # This will be used as the alt text for the logo
 # carpentry_description: "Custom Carpentry"
 
 # Overall title for pages.
-title: 'Lesson Title'
+title: 'Introduction to Image Processng with Fiji'
 
 # Date the lesson was created (YYYY-MM-DD, this is empty by default)
 created: '2026-06-26'
@@ -40,7 +40,7 @@ source: 'https://github.com/stephenogg/image-processing-fiji'
 branch: 'main'
 
 # Who to contact if there are any issues
-contact: 'team@carpentries.org'
+contact: 'stephen.ogg@kcl.ac.uk'
 
 # Navigation ------------------------------------------------
 #
@@ -65,17 +65,17 @@ contact: 'team@carpentries.org'
 # - another-learner.md
 
 # Order of episodes in your lesson
-episodes: 
+episodes:
 - introduction.Rmd
 
 # Information for Learners
-learners: 
+learners:
 
 # Information for Instructors
-instructors: 
+instructors:
 
 # Learner Profiles
-profiles: 
+profiles:
 
 # Customisation ---------------------------------------------
 #
