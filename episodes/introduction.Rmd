@@ -28,13 +28,12 @@ high-resolution images that take up a lot of disk space/virtual memory,
 and/or collections of many images that must be processed together -
 and the time-consuming and error-prone nature of manual processing,
 it can be advantageous or even necessary for this processing and analysis
-to be automated as a computer program.
+to be automated by a computer program.
 
-This lesson introduces an open source toolkit for processing image data:
-the Python programming language
-and [the *scikit-image* (`skimage`) library](https://scikit-image.org/).
+This lesson introduces an open source tool for processing image data:
+[ImageJ](https://imagej.net), specifically one flavour of imageJ, known as [Fiji](https://fiji.sc).
 With careful experimental design,
-Python code can be a powerful instrument in answering many different kinds of questions.
+ImageJ can be a powerful instrument in answering many different kinds of questions.
 
 ## Uses of Image Processing in Research
 
@@ -54,7 +53,7 @@ Some examples of image processing methods applied in research include:
 
 With this lesson,
 we aim to provide a thorough grounding in the fundamental concepts and skills
-of working with image data in Python.
+of working with image data in ImageJ.
 Most of the examples used in this lesson focus on
 one particular class of image processing technique, *morphometrics*,
 but what you will learn can be used to solve a much wider range of problems.
@@ -68,21 +67,21 @@ For example, we might be interested in automatically counting
 the number of bacterial colonies growing in a Petri dish,
 as shown in this image:
 
-![](fig/intro/colonies-01.jpg){alt='Bacteria colony'}
+![](fig/intro/colonies-01.jpg){alt='a few bacterial colonies on a petri dish'}
 
 We could use image processing to find the colonies, count them,
 and then highlight their locations on the original image,
 resulting in an image like this:
 
-![](fig/intro/colony-mask.png){alt='Colonies counted'}
+![](fig/intro/colony-mask.png){alt='bacterial colonies highlighted by segmentation and connected component analysis'}
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
 ## Why write a program to do that?
 
 Note that you can easily manually count the number of bacteria colonies
-shown in the morphometric example above.
-Why should we learn how to write a Python program to do a task
+shown in the example above.
+Why should we learn how to manually to do a task
 we could easily perform with our own eyes?
 There are at least two reasons to learn how to perform tasks like these
 with Python and scikit-image:
@@ -90,16 +89,16 @@ with Python and scikit-image:
 1. What if there are many more bacteria colonies in the Petri dish?
   For example, suppose the image looked like this:
 
-![](fig/intro/colonies-03.jpg){alt='Bacteria colony'}
+![](fig/intro/colonies-03.jpg){alt='several hundred bacterial colonies on a petri dish'}
 
 Manually counting the colonies in that image would present more of a challenge.
-A Python program using scikit-image could count the number of colonies more accurately,
-and much more quickly, than a human could.
+A computer program such as imageJ could count the number of colonies more accurately,
+and much more quickly, than a human could. And it would do it the same again, highlighting reproducibility.
 
 2. What if you have hundreds, or thousands, of images to consider?
   Imagine having to manually count colonies on several thousand images
   like those above.
-  A Python program using scikit-image could move through all of the images in seconds;
+  An ImageJ macro could process many images in seconds;
   how long would a graduate student require to do the task?
   Which process would be more accurate and repeatable?
 
@@ -121,7 +120,7 @@ by learning some basics about how images are represented and stored digitally.
 
 :::::::::::::::::::::::::::::::::::::::: keypoints
 
-- Simple Python and scikit-image techniques can be used to solve genuine image analysis problems.
+- Simple, but not basic, image analysis techniques can be used to solve genuine image analysis problems.
 - Morphometric problems involve the number, shape, and / or size of the objects in an image.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
