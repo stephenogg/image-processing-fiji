@@ -17,7 +17,7 @@ carpentry: 'dc'
 # carpentry_description: "Custom Carpentry"
 
 # Overall title for pages.
-title: 'Introduction to Image Processng with Fiji'
+title: 'Introduction to Image Processing with Fiji'
 
 # Date the lesson was created (YYYY-MM-DD, this is empty by default)
 created: '2026-06-26'
@@ -66,7 +66,6 @@ contact: 'stephen.ogg@kcl.ac.uk'
 
 # Order of episodes in your lesson
 episodes:
-- introduction.Rmd
 
 # Information for Learners
 learners:
