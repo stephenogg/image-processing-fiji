@@ -80,5 +80,14 @@ profiles:
 #
 # This space below is where custom yaml items (e.g. pinning
 # sandpaper and varnish versions) should live
+header-includes:
+  - |
+    <style>
+      .dark-mode img.no-invert, 
+      .dark-mode .dark-filter.no-invert {
+        filter: none !important;
+      }
+    </style>
+
 
 

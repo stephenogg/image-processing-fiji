@@ -68,15 +68,14 @@ the number of bacterial colonies growing in a Petri dish,
 as shown in this image:
 
 ```{r colonies-image, echo=FALSE, out.extra="class='no-invert figure mx-auto d-block'", fig.alt="a few bacterial colonies on a petri dish"}
-knitr::include_graphics("fig/intro/colonies-01.jpg")
+knitr::include_graphics("fig/motivation/petri-dish-colonies.jpg")
 ```
-
 
 We could use image processing to find the colonies, count them,
 and then highlight their locations on the original image,
 resulting in an image like this:
 
-![bacterial colonies highlighted by segmentation and connected component analysis](fig/intro/colony-mask.png){: .no-invert}
+![bacterial colonies highlighted by segmentation and connected component analysis](fig/motivation/colony-mask.png){: .no-invert}
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
@@ -92,7 +91,7 @@ with Python and scikit-image:
 1. What if there are many more bacteria colonies in the Petri dish?
   For example, suppose the image looked like this:
 
-![several hundred bacterial colonies on a petri dish](fig/intro/colonies-03.jpg){: .no-invert}
+![several hundred bacterial colonies on a petri dish](fig/motivation/colonies-03.jpg){: .no-invert}
 
 Manually counting the colonies in that image would present more of a challenge.
 A computer program such as imageJ could count the number of colonies more accurately,
