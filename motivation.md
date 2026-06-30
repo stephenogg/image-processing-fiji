@@ -67,13 +67,15 @@ For example, we might be interested in automatically counting
 the number of bacterial colonies growing in a Petri dish,
 as shown in this image:
 
-![](fig/intro/colonies-01.jpg){alt='a few bacterial colonies on a petri dish'}
+![](fig/motivation/colonies-01.jpg){alt='a few bacterial colonies on a petri dish'}
 
 We could use image processing to find the colonies, count them,
 and then highlight their locations on the original image,
 resulting in an image like this:
 
-![](fig/intro/colony-mask.png){alt='bacterial colonies highlighted by segmentation and connected component analysis'}
+
+![](fig/motivation/colony-mask.png){alt='bacterial colonies highlighted by segmentation and connected component analysis'}
+
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
@@ -89,7 +91,8 @@ with Python and scikit-image:
 1. What if there are many more bacteria colonies in the Petri dish?
   For example, suppose the image looked like this:
 
-![](fig/intro/colonies-03.jpg){alt='several hundred bacterial colonies on a petri dish'}
+![](fig/motivation/colonies-03.jpg){alt='several hundred bacterial colonies on a petri dish'}
+
 
 Manually counting the colonies in that image would present more of a challenge.
 A computer program such as imageJ could count the number of colonies more accurately,

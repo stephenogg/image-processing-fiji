@@ -65,20 +65,25 @@ contact: 'stephen.ogg@kcl.ac.uk'
 # - another-learner.md
 
 # Order of episodes in your lesson
-episodes:
+episodes: 
+- motivation.Rmd
+- basics.Rmd
+- imageWindow.Rmd
+- image-basics.Rmd
 
 # Information for Learners
-learners:
+learners: 
 
 # Information for Instructors
-instructors:
+instructors: 
 
 # Learner Profiles
-profiles:
+profiles: 
 
 # Customisation ---------------------------------------------
 #
 # This space below is where custom yaml items (e.g. pinning
 # sandpaper and varnish versions) should live
 
-
+header-includes: "<style>\n  .dark-mode img.no-invert, \n  .dark-mode .dark-filter.no-invert
+  {\n    filter: none !important;\n  }\n</style>\n"
