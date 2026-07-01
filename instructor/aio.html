@@ -621,7 +621,7 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  --></section></section><section id="aio-imageWindow"><p>Content from <a href="imageWindow.html">Fiji's Image Window</a></p>
 <hr>
-<p>Last updated on 2026-06-30 |
+<p>Last updated on 2026-07-01 |
 
         <a href="https://github.com/stephenogg/image-processing-fiji/edit/main/episodes/imageWindow.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 15 minutes</p>
@@ -660,7 +660,9 @@ any links that you are not going to use.
 <hr class="half-width">
 <p>Whenever you open an image, be it via File › Open, Drag ‘n Drop or
 File › Open Samples, ImageJ will open an image window:</p>
-<figure><img src="../fig/imageWindow/blobs.png" alt="screenshot of the blobs sample image from Fiji" class="figure mx-auto d-block"></figure><p>The window has the file name as its title. It also displays some
+<figure><img src="../fig/imageWindow/blobs.png" style="width:50.0%" alt="The blobs sample image from Fiji" class="figure mx-auto d-block"><div class="figcaption"><em>File -&gt; Open Samples -&gt;
+Blobs</em></div>
+</figure><p>The window has the file name as its title. It also displays some
 useful information above the image:</p>
 <ul>
 <li>If the image is calibrated, the real linear dimensions (there is no
@@ -687,7 +689,7 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  --></section></section><section id="aio-image-basics"><p>Content from <a href="image-basics.html">Image Basics</a></p>
 <hr>
-<p>Last updated on 2026-06-30 |
+<p>Last updated on 2026-07-01 |
 
         <a href="https://github.com/stephenogg/image-processing-fiji/edit/main/episodes/image-basics.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 25 minutes</p>
@@ -730,7 +732,7 @@ formats.</li>
 </div>
 </div>
 </div>
-<p>The images we see on hard copy, view with our electronic devices, or
+<p>The images we see every day, view with our electronic devices, or
 process with our programs are represented and stored in the computer as
 numeric abstractions, approximations of what we see with our eyes in the
 real world. Before we begin to learn how to process images with
@@ -742,16 +744,18 @@ abstractions work.</p>
 <p>It is important to realise that images are stored as rectangular
 arrays of hundreds, thousands, or millions of discrete “picture
 elements,” otherwise known as <em>pixels</em>. Each scene that a camera
-sees exist as a <em>continuum</em> of brightness values from black to
-white. As soon as we capture an image, we must represent the continuum
-of brightness values and spatial dimensions as discrete values and we
-must sample the brightness values at discrete intervals. Each of these
-samples is a pixel. Each pixel can be thought of as a single square of
-light - but do not get comfortable with this notion. These are actually
-<em>point</em> samples, <a href="https://www.researchgate.net/publication/244986797_A_Pixel_Is_Not_A_Little_Square_A_Pixel_Is_Not_A_Little_Square_A_Pixel_Is_Not_A_Little_Square" class="external-link">not
+sees exists as a <em>continuum</em> of brightness and colours. As soon
+as we capture an image, we must represent the colours and brightness as
+<strong>discrete</strong> values and we must sample these values at
+<strong>discrete</strong> intervals. Each of these samples is a pixel.
+Each pixel can be thought of as a single square of light - but do not
+get comfortable with this notion. These are actually <em>point</em>
+samples, <a href="https://www.researchgate.net/publication/244986797_A_Pixel_Is_Not_A_Little_Square_A_Pixel_Is_Not_A_Little_Square_A_Pixel_Is_Not_A_Little_Square" class="external-link">not
 little squares</a>.</p>
 <p>For example, consider this image of the KAUST beacon,</p>
-<figure><img src="../fig/image-basics/beacon.tif" alt="A black &amp; white image of the KAUST beacon" class="figure mx-auto d-block"></figure><p>Now, if we zoomed in close enough to see the pixels in the red box,
+<figure><img src="../fig/image-basics/beacon.jpg" alt="A black &amp; white image of the KAUST beacon" class="figure mx-auto d-block"><div class="figcaption">The Beacon <span class="citation">@KAUST</span>
+</div>
+</figure><p>Now, if we zoomed in close enough to see the pixels in the red box,
 we would see something like this:</p>
 <figure><img src="../fig/maize-seedling-enlarged.jpg" alt="Enlarged image area" class="figure mx-auto d-block"></figure><p>Note that each square in the enlarged image area - each pixel - is
 all one colour, but that each pixel can have a different colour from its
@@ -909,7 +913,7 @@ modules. You will encounter several different forms of
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
   <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> Further explanation </h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
 <p>In the example above, form 1 loads the entire scikit-image library
 into the program as an object. Individual modules of the library are
@@ -1082,7 +1086,7 @@ image and print out the matrix as well.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>There are many possible solutions, but one method would be . . .</p>
 <div class="codewrapper sourceCode" id="cb12">
@@ -1319,7 +1323,7 @@ further.)</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>(255, 0, 0) represents red, because the red channel is maximised,
@@ -1367,7 +1371,7 @@ RGB model?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>There are 24 total bits in an RGB colour of this type, and each bit
 can be on or off, and so there are 2<sup>24</sup> = 16,777,216 possible
@@ -1543,7 +1547,7 @@ how much storage would be required for the file?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <p>In such an image, there are 5,000 × 5,000 = 25,000,000 pixels, and 24
 bits for each pixel, leading to 25,000,000 × 24 = 600,000,000 bits, or
@@ -1649,7 +1653,7 @@ prediction? How about the JPEG?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <p>The BMP file, <code>ws.bmp</code>, is 75,000,054 bytes, which matches
 our prediction very nicely. The JPEG file, <code>ws.jpg</code>, is
@@ -1695,7 +1699,7 @@ conclude from the relative sizes?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
 <div class="accordion-body">
 <p>Here is a partial directory listing, showing the sizes of the
 relevant files there:</p>
@@ -1977,8 +1981,8 @@ any links that you are not going to use.
   "url": "https://stephenogg.github.io/image-processing-fiji/instructor/aio.html",
   "identifier": "https://stephenogg.github.io/image-processing-fiji/instructor/aio.html",
   "dateCreated": "2026-06-26",
-  "dateModified": "2026-06-30",
-  "datePublished": "2026-06-30"
+  "dateModified": "2026-07-01",
+  "datePublished": "2026-07-01"
 }
 
   </script><script>
