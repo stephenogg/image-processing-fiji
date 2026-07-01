@@ -22,7 +22,9 @@ exercises: 10
 
 Whenever you open an image, be it via File › Open, Drag ‘n Drop or File › Open Samples, ImageJ will open an image window:
 
-![](fig/imageWindow/blobs.png){alt="screenshot of the blobs sample image from Fiji"}
+![*File -> Open Samples -> Blobs*](fig/imageWindow/blobs.png){
+alt="The blobs sample image from Fiji"
+width='50%'}
 
 The window has the file name as its title. It also displays some useful information above the image:
 

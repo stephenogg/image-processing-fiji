@@ -25,7 +25,7 @@ exercises: 5
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-The images we see on hard copy, view with our electronic devices,
+The images we see every day, view with our electronic devices,
 or process with our programs are represented and stored in the computer
 as numeric abstractions, approximations of what we see with our eyes in the real world.
 Before we begin to learn how to process images with programs,
@@ -35,17 +35,17 @@ we need to spend some time understanding how these abstractions work.
 
 It is important to realise that images are stored as rectangular arrays
 of hundreds, thousands, or millions of discrete "picture elements,"
-otherwise known as *pixels*. Each scene that a camera sees exist as a 
-*continuum* of brightness values from black to white. As soon as we capture 
-an image, we must represent the continuum of brightness values and spatial dimensions 
-as discrete values and we must sample the brightness values at discrete intervals. 
+otherwise known as *pixels*. Each scene that a camera sees exists as a 
+*continuum* of brightness and colours. As soon as we capture 
+an image, we must represent the colours and brightness 
+as **discrete** values and we must sample these values at **discrete** intervals. 
 Each of these samples is a pixel. Each pixel can be thought of as a single square of light -
 but do not get comfortable with this notion. These are actually *point* samples, 
 [not little squares](https://www.researchgate.net/publication/244986797_A_Pixel_Is_Not_A_Little_Square_A_Pixel_Is_Not_A_Little_Square_A_Pixel_Is_Not_A_Little_Square). 
 
 For example, consider this image of the KAUST beacon,
 
-![](fig/image-basics/beacon.tif){alt='A black & white image of the KAUST beacon'}
+![The Beacon @KAUST](fig/image-basics/beacon.jpg){alt='A black & white image of the KAUST beacon'}
 
 Now, if we zoomed in close enough to see the pixels in the red box,
 we would see something like this:
