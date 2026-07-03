@@ -41,16 +41,19 @@ an image, we must represent the colours and brightness
 as **discrete** values and we must sample these values at **discrete** intervals. 
 Each of these samples is a pixel. Each pixel can be thought of as a single square of light -
 but do not get comfortable with this notion. These are actually *point* samples, 
-[not little squares](https://www.researchgate.net/publication/244986797_A_Pixel_Is_Not_A_Little_Square_A_Pixel_Is_Not_A_Little_Square_A_Pixel_Is_Not_A_Little_Square). 
+[not little squares](https://www.researchgate.net/publication/244986797_A_Pixel_Is_Not_A_Little_Square_A_Pixel_Is_Not_A_Little_Square_A_Pixel_Is_Not_A_Little_Square).
 
-For example, consider this image of the KAUST beacon,
+For example, consider this image of the KAUST beacon, with a square area designated by a red box:
 
-![The Beacon @KAUST](fig/image-basics/beacon.jpg){alt='A black & white image of the KAUST beacon'}
+![The Beacon @KAUST](fig/image-basics/beacon.jpg){
+alt='A black & white image of the KAUST beacon'
+width='33%'} 
 
 Now, if we zoomed in close enough to see the pixels in the red box,
 we would see something like this:
 
-![](fig/maize-seedling-enlarged.jpg){alt='Enlarged image area'}
+![Tiny Bit of the Beacon @KAUST](fig/image-basics/beacon-enlarged.jpg){
+alt='Enlarged image'}
 
 Note that each square in the enlarged image area - each pixel -
 is all one colour,
@@ -58,8 +61,9 @@ but that each pixel can have a different colour from its neighbors.
 Viewed from a distance,
 these pixels seem to blend together to form the image we see.
 
-Real-world images are typically made up of a vast number of pixels,
-and each of these pixels is one of potentially millions of colours.
+In contrast to the image above, which has only brightness values, from black to white, 
+real-world images are typically made up of a vast number of pixels,
+and each of these pixels is one of potentially millions of colours.  
 While we will deal with pictures of such complexity in this lesson,
 let's start our exploration with just 15 pixels in a 5 x 3 matrix with 2 colours,
 and work our way up to that complexity.
@@ -70,243 +74,91 @@ and work our way up to that complexity.
 
 A **matrix** is a mathematical concept - numbers evenly arranged in a rectangle. This can be a two-dimensional rectangle,
 like the shape of the screen you're looking at now. Or it could be a three-dimensional equivalent, a cuboid, or have
-even more dimensions, but always keeping the evenly spaced arrangement of numbers. In computing, an **array** refers
+even more dimensions, but it always keeps the evenly spaced arrangement of numbers. In computing, an **array** refers
 to a structure in the computer's memory where data is stored in evenly spaced **elements**. This is strongly analogous
-to a matrix. A NumPy array is a **type** of variable (a simpler example of a type is an integer). For our purposes,
-the distinction between matrices and arrays is not important, we don't really care how the computer arranges our data
-in its memory. The important thing is that the computer stores values describing the pixels in images, as arrays. And
-the terms matrix and array will be used interchangeably.
+to a matrix. For our purposes, the distinction between matrices and arrays is not important, we don't really care how the computer arranges our data in its memory. The important thing is that the computer stores values describing the pixels in images, as arrays. And the terms matrix and array will be used interchangeably.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Loading images
 
-As noted, images we want to analyze (process) with Python are loaded into arrays.
-There are multiple ways to load images. In this lesson, we use imageio, a Python
-library for reading (loading) and writing (saving) image data, and more specifically
-its version 3. But, really, we could use any image loader which would return a
-NumPy array.
+Unlike image processing in Python and R, where we explicitly load image data into numerical arrays for manipulation, 
+the images we want to analyze (process) with Fiji are loaded into floating windows displayed on the desktop. 
+The arrays that contain the image data are abstracted away from us. 
+There are multiple ways to load images in Fiji. You can choose *File -> Open* and navigate to the file in the filesystem. 
+Or, you can navigate to the file in the filesystem, right-click on it and choose Fiji to open the file. 
+Note that double-clicking on the image will likely open the image in the default system application designated for opening image files and this probably isn't Fiji.  
+Whichever method you use to open a file will result in a window opening with the image displayed with default display values. 
+Let us load our 15-pixel image data from disk. *File -> Open ->* navigate to the file *eight.tif* in the data folder saved on your system and click the "Open" button.  
 
-```python
-"""Python library for reading and writing images."""
-
-import imageio.v3 as iio
-```
-
-The `v3` module of imageio (`imageio.v3`) is imported as `iio` (see note in
-the next section).
-Version 3 of imageio has the benefit of supporting nD (multidimensional) image data
-natively (think of volumes, movies).
-
-Let us load our image data from disk using
-the `imread` function from the `imageio.v3` module.
-
-```python
-eight = iio.imread(uri="data/eight.tif")
-print(type(eight))
-```
-
-```output
-<class 'numpy.ndarray'>
-```
-
-Note that, using the same image loader or a different one, we could also read in
-remotely hosted data.
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Why not use `skimage.io.imread()`?
-
-The scikit-image library has its own function to read an image,
-so you might be asking why we don't use it here.
-Actually, `skimage.io.imread()` uses `iio.imread()` internally when loading an image into Python.
-It is certainly something you may use as you see fit in your own code.
-In this lesson, we use the imageio library to read or write images,
-while scikit-image is dedicated to performing operations on the images.
-Using imageio gives us more flexibility, especially when it comes to
-handling metadata.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Beyond NumPy arrays
-
-Beyond NumPy arrays, there exist other types of variables which are array-like. Notably,
-[pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html)
-and [xarray.DataArray](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html)
-can hold labeled, tabular data.
-These are not natively supported in scikit-image, the scientific toolkit we use
-in this lesson for processing image data. However, data stored in these types can
-be converted to `numpy.ndarray` with certain assumptions
-(see `pandas.DataFrame.to_numpy()` and `xarray.DataArray.data`). Particularly,
-these conversions ignore the sampling coordinates (`DataFrame.index`,
-`DataFrame.columns`, or `DataArray.coords`), which may result in misrepresented data,
-for instance, when the original data points are irregularly spaced.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Working with pixels
 
-First, let us add the necessary imports:
+![15-pixel image resembling an '8' taking up 15 pixels on the screen](fig/image-basics/eight.jpg){alt='Image of 8'}
 
-```python
-"""Python libraries for learning and performing image processing."""
+You might be thinking:
 
-import ipympl
-import matplotlib.pyplot as plt
-import numpy as np
-import skimage as ski
-```
+> "If I squint, that does look vaguely like an eight,
+and I see two colours but how can I deal with a tiny image that is only 15 pixels in size?".
 
-::::::::::::::::::::::::::::::::::::::::  callout
+We need to enlarge the image to see it. The display of the eight you see when you open the file 
+tries to recapitulate the original data as closely as possible. But 15 pixels on the screen is 
+not much real estate. Click on the Magnifying glass on the Fiji Main Window. Then move your 
+cursor over the image window and *onto the image itself*. Your cursor should change from an arrow 
+to a double headed crossed arrow when the cursor is over the image. Clicking in this position 
+magnifies the image 2X per click. Click again and again until the image is big enough to see. The 
+largest you can magnify the image is 3200%.  
+It should look Something like this:
 
-## Import statements in Python
+![15-pixel image resembling an '8' taking up many more pixels on the screen](fig/image-basics/eight-enlarged.jpg){alt='Enlarged Image of 8'}
 
-In Python, the `import` statement is used to
-load additional functionality into a program.
-This is necessary when we want our code to do something more specialised,
-which cannot easily be achieved with the limited set of basic tools and
-data structures available in the default Python environment.
 
-Additional functionality can be loaded as a single function or object,
-a module defining several of these, or a library containing many modules.
-You will encounter several different forms of `import` statement.
-
-```python
-import skimage                 # form 1, load whole skimage library
-import skimage.draw            # form 2, load skimage.draw module only
-from skimage.draw import disk  # form 3, load only the disk function
-import skimage as ski          # form 4, load all of skimage into an object called ski
-```
-
-::::::::::::::::  spoiler
-
-## Further explanation
-
-In the example above, form 1 loads the entire scikit-image library into the
-program as an object.
-Individual modules of the library are then available within that object,
-e.g., to access the `disk` function used in [the drawing episode](04-drawing.md),
-you would write `skimage.draw.disk()`.
-
-Form 2 loads only the `draw` module of `skimage` into the program.
-The syntax needed to use the module remains unchanged:
-to access the `disk` function,
-we would use the same function call as given for form 1.
-
-Form 3 can be used to import only a specific function/class from a library/module.
-Unlike the other forms, when this approach is used,
-the imported function or class can be called by its name only,
-without prefixing it with the name of the library/module from which it was loaded,
-i.e., `disk()` instead of `skimage.draw.disk()` using the example above.
-One hazard of this form is that importing like this will overwrite any
-object with the same name that was defined/imported earlier in the program,
-i.e., the example above would replace any existing object called `disk`
-with the `disk` function from `skimage.draw`.
-
-Finally, the `as` keyword can be used when importing,
-to define a name to be used as shorthand for the library/module being imported.
-This name is referred to as an alias. Typically, using an alias (such as
-`np` for the NumPy library) saves us a little typing.
-You may see `as` combined with any of the other first three forms of `import` statements.
-
-Which form is used often depends on
-the size and number of additional tools being loaded into the program.
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-Now that we have our libraries loaded,
-we will run a Jupyter Magic Command that will ensure our images display
-in our Jupyter document with pixel information that will help us
-more efficiently run commands later in the session.
-
-```python
-%matplotlib widget
-```
-
-With that taken care of, let us display the image we have loaded, using
-the `imshow` function from the `matplotlib.pyplot` module.
-
-```python
-fig, ax = plt.subplots()
-ax.imshow(eight)
-```
-
-![](fig/eight.png){alt='Image of 8'}
-
-You might be thinking,
-"That does look vaguely like an eight,
-and I see two colours but how can that be only 15 pixels".
-The display of the eight you see does use a lot more screen pixels to
-display our eight so large, but that does not mean there is information
-for all those screen pixels in the file.
-All those extra pixels are a consequence of our viewer creating
-additional pixels through interpolation.
-It could have just displayed it as a tiny image using only 15 screen pixels if
-the viewer was designed differently.
+All those extra pixels are a consequence of our viewer creating additional pixels through interpolation.
+Originally, it displayed just a tiny image using only 15 screen pixels, but after magnification, each original 
+pixel is represented by many pixels.  
 
 While many image file formats contain descriptive metadata that can be essential,
-the bulk of a picture file is just arrays of numeric information that,
+the bulk of a picture file is just an array (or arrays) of numeric information that,
 when interpreted according to a certain rule set,
 become recognizable as an image to us.
 Our image of an eight is no exception,
-and `imageio.v3` stored that image data in an array of arrays making
-a 5 x 3 matrix of 15 pixels.
-We can demonstrate that by calling on the shape property of our image variable
-and see the matrix by printing our image variable to the screen.
+it's a 5 x 3 matrix --- 15 pixels.
+We can demonstrate that by saving the numeric information from each pixel as text. 
+Make sure the image is the active window, then select *File -> Save As -> Text Image...*
+and save the file with a ".txt" extension --- "eight.txt". Open the file in a text editor or in a spreadsheet
+program. You should see the following matrix of values:
 
-```python
-print(eight.shape)
-print(eight)
-```
+| | | |
+|----|----|----|
+|0.000|0.000|0.000|
+|0.000|1.000|0.000|
+|0.000|0.000|0.000|
+|0.000|1.000|0.000|
+|0.000|0.000|0.000|
 
-```output
-(5, 3)
-[[0. 0. 0.]
- [0. 1. 0.]
- [0. 0. 0.]
- [0. 1. 0.]
- [0. 0. 0.]]
-```
 
-Thus if we have tools that will allow us to manipulate these arrays of numbers,
-we can manipulate the image.
-The NumPy library can be particularly useful here,
-so let's try that out using NumPy array slicing.
-Notice that the default behavior of the `imshow` function appended row and
-column numbers that will be helpful to us as we try to address individual or
-groups of pixels.
-First let's load another copy of our eight, and then make it look like a zero.
+**If we manipulate these arrays of numbers, we can manipulate the image.**
 
 To make it look like a zero,
-we need to change the number underlying the centremost pixel to be 1.
-With the help of those row and column headers,
-at this small scale we can determine the centre pixel is in row labeled 2 and
-column labeled 1.
-Using array slicing, we can then address and assign a new value to that position.
+we need to change the number underlying the centremost pixel to be 1. 
+With your text editor still open, change the middle column, 
+middle row's value from 0.000 to 1.000, like this:  
 
-```python
-zero = iio.imread(uri="data/eight.tif")
-zero[2, 1]= 1.0
+| | | |
+|----|----|----|
+|0.000|0.000|0.000|
+|0.000|1.000|0.000|
+|0.000|1.000|0.000|
+|0.000|1.000|0.000|
+|0.000|0.000|0.000|
 
-# The following line of code creates a new figure for imshow to use in displaying our output.
-fig, ax = plt.subplots()
-ax.imshow(zero)
-print(zero)
-```
+save this as a file with a new name, something like "zero.txt". 
+Then, back in Fiji, Choose *File -> Import -> Text Image...* 
+and navigate to the new file you just created. This will open your image 
+-- again it will be small. Use the same "magnify" strategy you used previously 
+to increase the size of the image in the image window. It should look something like this:
 
-```output
-[[0. 0. 0.]
- [0. 1. 0.]
- [0. 1. 0.]
- [0. 1. 0.]
- [0. 0. 0.]]
-```
-
-![](fig/zero.png){alt='Image of 0'}
+![](fig/image-basics/zero.jpg){alt='Image of 0'}
 
 ::::::::::::::::::::::::::::::::::::::::  callout
 
@@ -322,30 +174,29 @@ is to assign a modified Cartesian coordinate system to the image.
 The coordinate system we usually see in mathematics has
 a horizontal x-axis and a vertical y-axis, like this:
 
-![](fig/cartesian-coordinates.png){alt='Cartesian coordinate system'}
+![Cartesian Coordiate system](fig/image-basics/cartesian-coordinates.png){
+  alt='Cartesian coordinate system'}
 
 The modified coordinate system used for our images will have only positive
 coordinates, the origin will be in the upper left corner instead of the
 centre, and y coordinate values will get larger as they go down instead of up,
 like this:
 
-![](fig/image-coordinates.png){alt='Image coordinate system'}
+![Image Coordinate system containing only positive indices](fig/image-basics/image-coordinates.png){
+  alt='Image coordinate system'}
 
 This is called a *left-hand coordinate system*.
 If you hold your left hand in front of your face and point your thumb at the floor,
 your extended index finger will correspond to the x-axis
 while your thumb represents the y-axis.
 
-![](fig/left-hand-coordinates.png){alt='Left-hand coordinate system'}
+![Left-Handed Coordinate system](fig/image-basics/left-hand-coordinates.png){alt='Left-hand coordinate system'}
 
 Until you have worked with images for a while,
 the most common mistake that you will make with coordinates is to forget
 that y coordinates get larger as they go down instead of up
 as in a normal Cartesian coordinate system. Consequently, it may be helpful to think
-in terms of counting down rows (r) for the y-axis and across columns (c) for the x-axis. This
-can be especially helpful in cases where you need to transpose image viewer data
-provided in *x,y* format to *y,x* format.  Thus, we will use *cx* and *ry* where appropriate
-to help bridge these two approaches.
+in terms of counting down rows (r) for the y-axis and across columns (c) for the x-axis.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -353,9 +204,10 @@ to help bridge these two approaches.
 
 ## Changing Pixel Values (5 min)
 
-Load another copy of eight named five,
-and then change the value of pixels so you have what looks like a 5 instead of an 8.
-Display the image and print out the matrix as well.
+Create an image that looks like a 5, starting with the image 8 that we've been working 
+with by manipulating the underlying numerical matrix.
+Change the value of pixels so you have what looks like a 5 instead of an 8.
+Open this new array in Fiji to display the image.
 
 :::::::::::::::  solution
 
@@ -363,24 +215,25 @@ Display the image and print out the matrix as well.
 
 There are many possible solutions, but one method would be . . .
 
-```python
-five = iio.imread(uri="data/eight.tif")
-five[1, 2] = 1.0
-five[3, 0] = 1.0
-fig, ax = plt.subplots()
-ax.imshow(five)
-print(five)
-```
+Open the text file we created earlier, eight.txt in a text editor 
+and change the values in the matrix to resemble this:
 
-```output
-[[0. 0. 0.]
- [0. 1. 1.]
- [0. 0. 0.]
- [1. 1. 0.]
- [0. 0. 0.]]
-```
+| | | |
+|----|----|----|
+|0.000|0.000|0.000|
+|0.000|1.000|1.000|
+|0.000|0.000|0.000|
+|1.000|1.000|0.000|
+|0.000|0.000|0.000|
 
-![](fig/five.png){alt='Image of 5'}
+save the file with a new name, "five.txt". 
+
+In Fiji, Choose *File -> Import -> Text Image...* 
+and navigate to five.txt. This will open your image 
+Use the same "magnify" strategy you used previously 
+to increase the size of the image in the image window. It should look like this:
+
+![15-pixel image resembling a 5](fig/image-basics/five.jpg){alt='Image of 5'}
 
 :::::::::::::::::::::::::
 
@@ -388,182 +241,160 @@ print(five)
 
 ## More colours
 
-Up to now, we only had a 2 colour matrix,
-but we can have more if we use other numbers or fractions.
+Up to now, we've only had a 2 colour matrix where each pixel has a 
+value of "0" or "1", but we can have more values if we use other numbers or fractions.
 One common way is to use the numbers between 0 and 255 to allow for
 256 different colours or 256 different levels of grey.
 Let's try that out.
 
-```python
-# make a copy of eight
-three_colours = iio.imread(uri="data/eight.tif")
+- Open eight.tif again in a new window in Fiji.
+- Multiply the whole matrix by 128
+  - *Process -> Math -> Multiply...*
+  - Type "128" into the Value: field
+  - Press "OK"
+- Set the three pixels in the middle row to the value of 255.
+  - Save the new matrix as a text image, naming it "three_colours.txt"
+    - *File -> Save As -> Text Image...*
+  - Open the file with a text editor
+  - Change all three values in the middle row to "255.0"
+  - Save the changes.
+- Open "three_colours.txt" in Fiji
+  - *File -> Import -> Text Image...*
 
-# multiply the whole matrix by 128
-three_colours = three_colours * 128
+![More than just Black & White](fig/image-basics/three_colours.png){alt='Image of three colours'}
 
-# set the middle row (index 2) to the value of 255.,
-# so you end up with the values 0., 128., and 255.
-three_colours[2, :] = 255.
-fig, ax = plt.subplots()
-ax.imshow(three_colours)
-print(three_colours)
-```
+and here is the underlying matrix:
 
-![](fig/three-colours.png){alt='Image of three colours'}
+| | | |
+|----|----|----|
+|0.000|0.000|0.000|
+|0.000|128.000|1.000|
+|255.000|255.000|255.000|
+|1.000|128.000|0.000|
+|0.000|0.000|0.000|
 
-We now have 3 colours, but are they the three colours you expected?
-They all appear to be on a continuum of dark purple on the low end and
-yellow on the high end.
-This is a consequence of the default colour map (cmap) in this library.
-You can think of a colour map as an association or mapping of numbers
-to a specific colour.
+
+We now have 3 values displayed as 3 colours, but are they the three colours you expected?
+They all appear to be on a continuum of black to white.
+This is a consequence of the default lookup table (often abbreviated as LUT, 
+alternatively known as a colour map) used in Fiji.
+You can think of a lookup table as a way that the computer chooses to display the image data 
+(numbers in the image array) on the screen.
 However, the goal here is not to have one number for every possible colour,
 but rather to have a continuum of colours that demonstrate relative intensity.
 In our specific case here for example,
-255 or the highest intensity is mapped to yellow,
-and 0 or the lowest intensity is mapped to a dark purple.
-The best colour map for your data will vary and there are many options built in,
-but this default selection was not arbitrary.
-A lot of science went into making this the default due to its robustness
-when it comes to how the human mind interprets relative colour values,
-grey-scale printability,
-and colour-blind friendliness
-(You can read more about this default colour map in
-[a Matplotlib tutorial](https://matplotlib.org/stable/tutorials/colors/colormaps.html)
-and [an explanatory article by the authors](https://bids.github.io/colormap/)).
-Thus it is a good place to start,
-and you should change it only with purpose and forethought.
-For now, let's see how you can do that using an alternative map
-you have likely seen before where it will be even easier to see it as
-a mapped continuum of intensities: greyscale.
+255 or the highest intensity is mapped to white, 128 is mapped to gray, 
+and 0 or the lowest intensity is mapped to a black.
+The best LUT for your data will vary dpeending on your purpose. 
+Fiji has many built-in options. Let's see how you can change the LUT. 
+*Image -> Lookup Tables -> Green*
 
-```python
-fig, ax = plt.subplots()
-ax.imshow(three_colours, cmap="gray")
-```
 
-![](fig/grayscale.png){alt='Image in greyscale'}
+![](fig/image-basics/three_colours_green.png){alt='Image using green LUT'}
 
-Above we have exactly the same underlying data matrix, but in greyscale.
-Zero maps to black, 255 maps to white, and 128 maps to medium grey.
-Here we only have a single channel in the data and utilize a grayscale color map
+Above we have exactly the same underlying data matrix, but now the colours are shades of green.
+Zero maps to black, 255 maps to pure green, and 128 maps to medium green.
+Here we only have a single channel in the data and utilize a single color map
 to represent the luminance, or intensity of the data and correspondingly
 this channel is referred to as the luminance channel.
+
+-----------------------
 
 ## Even more colours
 
 This is all well and good at this scale,
-but what happens when we instead have a picture of a natural landscape that
+but what happens when we have a picture of a natural landscape that
 contains millions of colours.
-Having a one to one mapping of number to colour like this would be inefficient
-and make adjustments and building tools to do so very difficult.
-Rather than larger numbers, the solution is to have more numbers in more dimensions.
+Mapping each colour to one number like this would be inefficient.
+
+Rather than larger numbers, the solution is to combine numbers in more dimensions.
 Storing the numbers in a multi-dimensional matrix where each colour or
 property like transparency is associated with its own dimension allows
 for individual contributions to a pixel to be adjusted independently.
 This ability to manipulate properties of groups of pixels separately will be
 key to certain techniques explored in later chapters of this lesson.
 To get started let's see an example of how different dimensions of information
-combine to produce a set of pixels using a 4 x 4 matrix with 3 dimensions
-for the colours red, green, and blue.
-Rather than loading it from a file, we will generate this example using NumPy.
+combine to produce a set of pixels using a 4 x 4 matrix with 3 dimensions. We'll 
+use one dimension each for the colours red, green, and blue.
+Open the "4x4checkerboard.tif" image in Fiji (*File -> Open...* -- and then navigate to the file)
 
-```python
-# set the random seed so we all get the same matrix
-pseudorandomizer = np.random.RandomState(2021)
-# create a 4 × 4 checkerboard of random colours
-checkerboard = pseudorandomizer.randint(0, 255, size=(4, 4, 3))
-# restore the default map as you show the image
-fig, ax = plt.subplots()
-ax.imshow(checkerboard)
-# display the arrays
-print(checkerboard)
-```
-
-```output
-[[[116  85  57]
-  [128 109  94]
-  [214  44  62]
-  [219 157  21]]
-
- [[ 93 152 140]
-  [246 198 102]
-  [ 70  33 101]
-  [  7   1 110]]
-
- [[225 124 229]
-  [154 194 176]
-  [227  63  49]
-  [144 178  54]]
-
- [[123 180  93]
-  [120   5  49]
-  [166 234 142]
-  [ 71  85  70]]]
-```
-
-![](fig/checkerboard.png){alt='Image of checkerboard'}
+![4 X 4 Checkerboard](fig/image-basics/checkerboard.png){alt='Image of a checkerboard'}
 
 Previously we had one number being mapped to one colour or intensity.
 Now we are combining the effect of 3 numbers to arrive at a single colour value.
-Let's see an example of that using the blue square at the end of the second row,
-which has the index [1, 3].
+Let's see an example of that using the blue square at the end of the second row. 
+An easy way to find the values of pixels in an image that is open in Fiji, 
+is to mouse over the pixel you are interested in, while looking in the status bar of 
+the main window.
 
-```python
-# extract all the colour information for the blue square
-upper_right_square = checkerboard[1, 3, :]
-upper_right_square
-```
+![Values of the blue pixel](fig/image-basics/blue-pixel-values.png){alt='screenshot of the blue pixel values'}
 
-This outputs: array([  7,   1, 110])
-The integers in order represent Red, Green, and Blue.
-Looking at the 3 values and knowing how they map,
-can help us understand why it is blue.
-If we divide each value by 255, which is the maximum,
-we can determine how much it is contributing relative to its maximum potential.
-Effectively, the red is at 7/255 or 2.8 percent of its potential,
-the green is at 1/255 or 0.4 percent,
-and blue is 110/255 or 43.1 percent of its potential.
+The integers in order represent Red, Green, and Blue. In the case of the blue pixel, 
+the red value is 007, the green value is 001 and the blue value is 110. 
+Examining the 3 values can help us understand how these values combine to blue.
+You can think of each colour as a channel that can take values from 0 to 255. 
+If we divide each value by 256 (the total number of possible values per each channel), 
+we can determine the proportion of each of the colours contribution to the total colour.
+Effectively, the red is at 7/256 or 2.8 percent of its potential, 
+the green is at 1/256 or 0.4 percent, and blue is 110/256 or 43.1 percent of its potential. 
 So when you mix those three intensities of colour,
 blue is winning by a wide margin,
 but the red and green still contribute to make it a slightly different
-shade of blue than 0,0,110 would be on its own.
-
-These colours mapped to dimensions of the matrix may be referred to as channels.
+shade of blue than 0,0,110 would be on its own.  
+Each of these colour values mapped to dimensions of the matrix may be referred to as channels.
 It may be helpful to display each of these channels independently,
 to help us understand what is happening.
-We can do that by multiplying our image array representation with
-a 1d matrix that has a one for the channel we want to keep and zeros for the rest.
+We can do that by using Fiji's split channels function. Ensure that the "4x4checkerboard.tif" 
+is the selected window, then from the menu, choose:
 
-```python
-red_channel = checkerboard * [1, 0, 0]
-fig, ax = plt.subplots()
-ax.imshow(red_channel)
-```
+*Image -> Color -> Split Channels*
 
-![](fig/checkerboard-red-channel.png){alt='Image of red channel'}
 
-```python
-green_channel = checkerboard * [0, 1, 0]
-fig, ax = plt.subplots()
-ax.imshow(green_channel)
-```
+<div style="display: flex; gap: 15px; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
 
-![](fig/checkerboard-green-channel.png){alt='Image of green channel'}
+  <figure style="flex: 1; margin: 0; text-align: center;">
+    <img src="fig/image-basics/blue-split-gray.png" alt="Alt text for image one" style="width: 100%; height: auto;">
+    <figcaption style="font-size: 0.9em; color: #555; margin-top: 5px;">Blue Channel</figcaption>
+  </figure>
 
-```python
-blue_channel = checkerboard * [0, 0, 1]
-fig, ax = plt.subplots()
-ax.imshow(blue_channel)
-```
+  <figure style="flex: 1; margin: 0; text-align: center;">
+    <img src="fig/image-basics/green-split-gray.png" alt="Alt text for image two" style="width: 100%; height: auto;">
+    <figcaption style="font-size: 0.9em; color: #555; margin-top: 5px;">Green Channel</figcaption>
+  </figure>
 
-![](fig/checkerboard-blue-channel.png){alt='Image of blue channel'}
+  <figure style="flex: 1; margin: 0; text-align: center;">
+    <img src="fig/image-basics/red-split-gray.png" alt="Alt text for image three" style="width: 100%; height: auto;">
+    <figcaption style="font-size: 0.9em; color: #555; margin-top: 5px;">Red Channel</figcaption>
+  </figure>
 
-If we look at the upper [1, 3] square in all three figures,
-we can see each of those colour contributions in action.
-Notice that there are several squares in the blue figure that look
-even more intensely blue than square [1, 3].
-When all three channels are combined though,
+</div>
+
+<div style="display: flex; gap: 15px; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+
+  <figure style="flex: 1; margin: 0; text-align: center;">
+    <img src="fig/image-basics/blue-split-blue.png" alt="Alt text for image one" style="width: 100%; height: auto;">
+    <figcaption style="font-size: 0.9em; color: #555; margin-top: 5px;">Blue Channel</figcaption>
+  </figure>
+
+  <figure style="flex: 1; margin: 0; text-align: center;">
+    <img src="fig/image-basics/green-split-green.png" alt="Alt text for image two" style="width: 100%; height: auto;">
+    <figcaption style="font-size: 0.9em; color: #555; margin-top: 5px;">Green Channel</figcaption>
+  </figure>
+
+  <figure style="flex: 1; margin: 0; text-align: center;">
+    <img src="fig/image-basics/red-split-red.png" alt="Alt text for image three" style="width: 100%; height: auto;">
+    <figcaption style="font-size: 0.9em; color: #555; margin-top: 5px;">Red Channel</figcaption>
+  </figure>
+
+</div>
+
+
+If we look at the pixel that we've been considering, 
+we can see each of those colour contributions in action. 
+The three values are 7 (R), 1(G), 110(B). 
+Notice that there are several squares in the blue channel figure that look
+even more intensely blue than our blue pixel.
+When all three channels are combined, however,
 the blue light of those squares is being diluted by the relative strength
 of red and green being mixed in with them.
 
@@ -639,7 +470,7 @@ their 24-bit RGB triplet values, and the colour itself.
 
 ## RGB colour table (optional, not included in timing)
 
-![](fig/colour-table.png){alt='RGB colour table'}
+![](fig/image-basics/colour-table.png){alt='RGB colour table'}
 
 We cannot really provide a complete table.
 To see why, answer this question:
