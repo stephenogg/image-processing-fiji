@@ -286,7 +286,10 @@ In our specific case here for example,
 255 or the highest intensity is mapped to white, 128 is mapped to gray, 
 and 0 or the lowest intensity is mapped to a black.
 The best LUT for your data will vary dpeending on your purpose. 
-Fiji has many built-in options. Let's see how you can change the LUT. 
+Fiji has many built-in options. Let's see how you can change the LUT.  
+
+----
+
 *Image -> Lookup Tables -> Green*
 
 
@@ -294,9 +297,11 @@ Fiji has many built-in options. Let's see how you can change the LUT.
 
 Above we have exactly the same underlying data matrix, but now the colours are shades of green.
 Zero maps to black, 255 maps to pure green, and 128 maps to medium green.
-Here we only have a single channel in the data and utilize a single color map
+Here we only have a single matrix in the data and we utilize a single color map
 to represent the luminance, or intensity of the data and correspondingly
-this channel is referred to as the luminance channel.
+this matrix (knwn as a channel) is referred to as the luminance channel. We can have an arbitrary number of 
+matrices in the data. Each matrix can be a separate intensity channel (e.g. in a multi-channel 
+fluorescence experiment) or they can be combined to generate colour -- below.
 
 -----------------------
 
@@ -329,19 +334,19 @@ the main window.
 
 ![Values of the blue pixel](fig/image-basics/blue-pixel-values.png){alt='screenshot of the blue pixel values'}
 
-The integers in order represent Red, Green, and Blue. In the case of the blue pixel, 
+The integers 007,001,110 in order represent Red, Green, and Blue. In the case of the blue pixel, 
 the red value is 007, the green value is 001 and the blue value is 110. 
 Examining the 3 values can help us understand how these values combine to blue.
 You can think of each colour as a channel that can take values from 0 to 255. 
 If we divide each value by 256 (the total number of possible values per each channel), 
 we can determine the proportion of each of the colours contribution to the total colour.
-Effectively, the red is at 7/256 or 2.8 percent of its potential, 
-the green is at 1/256 or 0.4 percent, and blue is 110/256 or 43.1 percent of its potential. 
+Effectively, the red is at 7/256 or 2.7 percent of its potential, 
+the green is at 1/256 or 0.4 percent, and blue is 110/256 or 43.0 percent of its potential. 
 So when you mix those three intensities of colour,
 blue is winning by a wide margin,
 but the red and green still contribute to make it a slightly different
 shade of blue than 0,0,110 would be on its own.  
-Each of these colour values mapped to dimensions of the matrix may be referred to as channels.
+Remember that each of these colour values mapped to dimensions of the matrix may be referred to as channels.
 It may be helpful to display each of these channels independently,
 to help us understand what is happening.
 We can do that by using Fiji's split channels function. Ensure that the "4x4checkerboard.tif" 
@@ -369,6 +374,13 @@ is the selected window, then from the menu, choose:
 
 </div>
 
+----------
+
+Splitting the channels results in 3 individual windows each with a single image matrix being displayed. Again, Fiji's default 
+LUT has coloured the resulting image windows in grayscale. Below I've changed the LUT for each of hte channels to its respective colour.
+
+----------
+
 <div style="display: flex; gap: 15px; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
 
   <figure style="flex: 1; margin: 0; text-align: center;">
@@ -395,29 +407,38 @@ The three values are 7 (R), 1(G), 110(B).
 Notice that there are several squares in the blue channel figure that look
 even more intensely blue than our blue pixel.
 When all three channels are combined, however,
-the blue light of those squares is being diluted by the relative strength
+the blue light of those squares is being diluted/combined by the relative strength
 of red and green being mixed in with them.
 
 ## 24-bit RGB colour
 
-This last colour model we used,
-known as the *RGB (Red, Green, Blue)* model, is the most common.
+This colour model, known as the *RGB (Red, Green, Blue)* model is the most common.
 
 As we saw, the RGB model is an *additive* colour model, which means that the primary
 colours are mixed together to form other colours.
+
+![The Additive Colour Model ](fig/image-basics/additive.png){
+  alt='image of the way the primary colours combine'}
+
 Most frequently, the amount of the primary colour added is represented as
 an integer in the closed range [0, 255] as seen in the example.
 Therefore, there are 256 discrete amounts of each primary colour that can be
 added to produce another colour.
-The number of discrete amounts of each colour, 256, corresponds to the number of
-bits used to hold the colour channel value, which is eight (2<sup>8</sup>\=256).
-Since we have three channels with 8 bits for each (8+8+8=24),
-this is called 24-bit colour depth.
+The number of discrete amounts of each colour, 256, corresponds to the amount of 
+memory allocated (in bits) by the computer to store the colour information.
+In this case there are 8 bits allocated channel and because we can store either a 0 or a 1
+in each of the 8 bits, the total number of possible storage values is the combinatorial 
+of 2 and 8 (2<sup>8</sup>\=256). Because we have three channels each with 8 bits (8+8+8=24), 
+we call this 24-bit colour depth.
 
 Any particular colour in the RGB model can be expressed by a triplet of
 integers in [0, 255], representing the red, green, and blue channels,
 respectively.
-A larger number in a channel means that more of that primary colour is present.
+A larger number in a channel means that more of that primary colour is present.  
+
+24-bit RGB is not the only colour model. But we will limit our discussion here to only 24-bit colour. 
+There are many web-based colour calculators you can use to determine or specify RGB colors. 
+These calculators often allow you to convert from one colour model to another.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
@@ -481,15 +502,15 @@ How many possible colours can be represented with the 24-bit RGB model?
 ## Solution
 
 There are 24 total bits in an RGB colour of this type,
-and each bit can be on or off,
-and so there are 2<sup>24</sup> = 16,777,216
+and each bit can be on or off (0 or 1),
+therefore, there are 2<sup>24</sup> = 16,777,216
 possible colours with our additive, 24-bit RGB colour model.
 
 :::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-Although 24-bit colour depth is common, there are other options.
+Although 24-bit colour is common, as stated previously, there are other options.
 For example, we might have 8-bit colour
 (3 bits for red and green, but only 2 for blue, providing 8 × 8 × 4 = 256 colours)
 or 16-bit colour
@@ -513,7 +534,43 @@ Each pixel in the image is a square point of coloured light,
 where the colour is specified by a 24-bit RGB triplet.
 Such an image is an example of *raster graphics*.
 
-## Image formats
+## Image type
+
+Fiji categorizes images by their pixel data bit-depth 
+(i.e. how much memory is allocated to store a single pixel's data - see below -- Bits & Bytes) 
+to support scientific analysis. The core types represent how much data is stored per pixel, 
+determining the image's intensity range and color capabilities. 
+You can check or change your image type in Fiji via the top menu by selecting: 
+
+*Image > Type*
+
+![Fiji's *Image -> Type* menu](fig/image-basics/image-types.png){alt="Fiji's image -> type menu"}
+
+
+The primary image types used in Fiji are:
+
+- **8-bit:** Each pixel holds one of 256 possible intensity values (0 to 255). 
+This is the standard type for most basic image processing.
+- **16-bit:** Stores 65,536 intensity values per pixel (0 to 65,535). 
+This is standard for raw scientific data and microscopy to capture finer differences between intensities.
+- **32-bit (Float):** Stores pixel values as floating-point numbers rather than whole integers. 
+This accommodates extreme dynamic ranges or calculated measurements.
+- **8-bit Color / 256-color:** An 8-bit image that uses a look-up table 
+(LUT) to translate pixel values into colors. 
+(These are mostly obsolete for processing and are usually converted to standard 8-bit or RGB).
+- **RGB Color:** True-color images that use three 8-bit channels (Red, Green, Blue) 
+to create over 16 million possible colors.
+
+There are two more options: RGB stack and HSV stack, 
+which can turn a 2-dimensional color image into a stack consisting of 3 color channels 
+(red, green & blue or hue, saturation & value, respectively).
+
+To confirm the specifics of your image data (including dimensions and voxel size), 
+you can view all metadata by selecting:  
+
+*Image > Show Info...*
+
+## Universal Image formats
 
 Although the images we will manipulate in our programs are conceptualised as
 rectangular arrays of RGB triplets,
@@ -527,6 +584,7 @@ Some formats we might encounter, and their file extensions, are shown in this ta
 | Device-Independent Bitmap (BMP)         | .bmp          |
 | Joint Photographic Experts Group (JPEG) | .jpg or .jpeg |
 | Tagged Image File Format (TIFF)         | .tif or .tiff |
+| Portable Network Graphics               | .png          |
 
 ## BMP
 
@@ -613,6 +671,19 @@ The following table provides more formal definitions for these terms.
 | Gigabyte                                | GB            | 1024 MB    |
 | Terabyte                                | TB            | 1024 GB    |
 
+NB:
+
+  - KB (Kilobyte): Used for file sizes and storage capacity. In this abbreviation, 
+the uppercase "B" strictly means byte.
+
+  - Kb (Kilobit): Used by Internet Service Providers (ISPs) and network hardware 
+  to describe broadband or network speeds (e.g., Kbps, meaning Kilobits per second). 
+  In this abbreviation, the lowercase "b" means bit.
+
+While KB almost always refers to bytes, the exact math can sometimes differ. 
+In binary measurements—like those used in Windows operating systems or memory chips, 
+1 KB equals 1,024 bytes. Standard metric measurements, however, consider 1 KB to equal 1,000 bytes.*
+
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::  challenge
@@ -639,7 +710,7 @@ That is quite a lot of space for a very uninteresting image!
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-Since image files can be very large,
+Because image files can be very large,
 various *compression* schemes exist for saving
 (approximately) the same information while using less space.
 These compression techniques can be categorised as *lossless* or *lossy*.
@@ -720,20 +791,26 @@ JPEG images can be viewed and manipulated easily on all computing platforms.
 ## Examining actual image sizes (optional, not included in timing)
 
 Let us see the effects of image compression on image size with actual images.
-The following script creates a square white image 5000 x 5000 pixels,
-and then saves it as a BMP and as a JPEG image.
+The following procedure creates a square white image 5000 x 5000 pixels, 
+then saves it as a BMP and as a JPEG image for size comparison.
 
-```python
-dim = 5000
+1. *File -> New -> Image...*
+1. The "New Image Creation Pane" opens up:
 
-img = np.zeros((dim, dim, 3), dtype="uint8")
-img.fill(255)
+![The New Image... Window](fig/image-basics/new-image.png){alt="Fiji's new image window"}
 
-iio.imwrite(uri="data/ws.bmp", image=img)
-iio.imwrite(uri="data/ws.jpg", image=img)
-```
+1. Fill this in as in the image above, 5000 X 5000 pixels, RGB type, fill with white 
+and choose a name you can remember. Does it matter which colour we choose to fill the 
+image with for this purpose? Click "OK"
+1. An image window opens with the name you typed in the new image pane.
+1. Save the image as a bmp file:
+  - *File -> Save As -> BMP...*
+  - Save the file somewhere easy to loccate as `boring.bmp`
+1. Save the image as a JPEG file:
+  - *File -> Save As -> Jpeg...*
+  - Save the file somewhere easy to locate as `boring.jpg`
 
-Examine the file sizes of the two output files, `ws.bmp` and `ws.jpg`.
+Examine the file sizes of the two output files, `boring.bmp` and `boring.jpg`.
 Does the BMP image size match our previous prediction?
 How about the JPEG?
 
@@ -741,9 +818,9 @@ How about the JPEG?
 
 ## Solution
 
-The BMP file, `ws.bmp`, is 75,000,054 bytes,
+The BMP file, `ws.bmp`, is 73,243 KB,
 which matches our prediction very nicely.
-The JPEG file, `ws.jpg`, is 392,503 bytes,
+The JPEG file, `ws.jpg`, is 384 KB,
 two orders of magnitude smaller than the bitmap version.
 
 :::::::::::::::::::::::::
@@ -802,28 +879,28 @@ Here is an example showing how JPEG compression might impact image quality.
 Consider this image of several maize seedlings
 (scaled down here from 11,339 × 11,336 pixels in order to fit the display).
 
-![](fig/quality-original.jpg){alt='Original image'}
+![Image of Maize Seedlings](fig/image-basics/quality-original.jpg){alt='Original Maize Seedlings'}
 
 Now, let us zoom in and look at a small section of the label in the original,
 first in the uncompressed format:
 
-![](fig/quality-tif.jpg){alt='Enlarged, uncompressed'}
+![Enlarged, uncompressed](fig/image-basics/quality-tif.jpg){alt='Enlarged, uncompressed'}
 
 Here is the same area of the image, but in JPEG format.
 We used a fairly aggressive compression parameter to make the JPEG,
 in order to illustrate the problems you might encounter with the format.
 
-![](fig/quality-jpg.jpg){alt='Enlarged, compressed'}
+![Enlarged, compressed](fig/image-basics/quality-jpg.jpg){alt='Enlarged, compressed'}
 
 The JPEG image is of clearly inferior quality.
 It has less colour variation and noticeable pixelation.
 Quality differences become even more marked when one examines
-the colour histograms for each image.
+the histograms for each image.
 A histogram shows how often each colour value appears in an image.
 The histograms for the uncompressed (left) and compressed (right) images
 are shown below:
 
-![](fig/quality-histogram.jpg){alt='Uncompressed histogram'}
+![Histograms of the two enalregd images](fig/image-basics/quality-histogram.jpg){alt='histograms of the above images'}
 
 We learn how to make histograms such as these later on in the workshop.
 The differences in the colour histograms are even more apparent than in the
@@ -884,34 +961,7 @@ take precautions to always preserve the original files**.
 `imageio.v3` provides a way to display or explore the metadata
 associated with an image. Metadata is served independently from pixel data:
 
-```python
-# read metadata
-metadata = iio.immeta(uri="data/eight.tif")
-# display the format-specific metadata
-metadata
-```
 
-```output
-{'is_fluoview': False,
- 'is_nih': False,
- 'is_micromanager': False,
- 'is_ome': False,
- 'is_lsm': False,
- 'is_reduced': False,
- 'is_shaped': True,
- 'is_stk': False,
- 'is_tiled': False,
- 'is_mdgel': False,
- 'compression': <COMPRESSION.NONE: 1>,
- 'predictor': 1,
- 'is_mediacy': False,
- 'description': '{"shape": [5, 3]}',
- 'description1': '',
- 'is_imagej': False,
- 'software': 'tifffile.py',
- 'resolution_unit': 1,
- 'resolution': (1.0, 1.0, 'NONE')}
-```
 
 Many popular image editing programs have built-in metadata viewing
 capabilities. A platform-independent open-source tool that allows
@@ -927,7 +977,47 @@ the metadata of your images.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Summary of image formats used in this lesson
+## Microscope Specific Image formats & the BioFormats Library
+
+Microscope software saves image data in proprietary formats unique to each hardware vendor. 
+The Bio-Formats Plugin for Fiji bridges this gap, 
+enabling you to open over 140 of these vendor-specific file types while preserving 
+critical spatial calibrations and hardware metadata.
+
+Every major microscope manufacturer encodes proprietary information 
+(like laser power, z-stacks, and time-series settings) differently, 
+which makes them unreadable by standard image viewers:
+
+- Zeiss (.czi): A complex, multi-dimensional format that frequently 
+uses pyramidal imaging for large virtual slides.
+- Leica (.lif): Functions like a database, meaning a single file can contain 
+multiple distinct datasets or image series.
+- Nikon (.nd / .nd2): Stores multi-dimensional image series, 
+but large sequences may require being opened as an image sequence.
+- Olympus (.oif / .oib): Complex folder/file structures that store channel configurations.
+- OME-TIFF (.ome.tiff): The community standard developed by the Open Microscopy Environment 
+that combines raw pixels with open XML-based metadata.
+
+Fiji natively bundles Bio-Formats, 
+making it easy to open proprietary files by overriding Fiji's standard file opening logic.
+
+1. The Quick Method (Drag and Drop) Simply drag your proprietary file (e.g., a .czi or .lif) 
+and drop it onto the main Fiji toolbar. Fiji will recognize the file and launch the Bio-Formats 
+Import Options dialogue.
+2. The Controlled Method (*Plugins -> Bio-Formats*) For complex multi-series files 
+(like .lif databases), it is recommended to use the plugin directly so you can choose 
+which specific series to open: 
+  - Select *Plugins > Bio-Formats > Bio-Formats Importer* (or *File > Import > Bio-Formats*).
+  - Select your proprietary file in the system.
+  - In the Bio-Formats Import Options pop-up, choose the View Type (e.g., standard image, stack, or Hyperstack).
+  - Check the metadata boxes to keep scaling and channel information 
+  - click OK.
+
+## NGFF (Next Generation File Format)
+
+In microscopy, the Next-Generation File Format (NGFF) -- spearheaded by the [Open Microscopy Environment](https://www.openmicroscopy.org) (OME) -- describes the community-driven transition toward [OME-Zarr](https://ngff.openmicroscopy.org/index.html). NGFF enables researchers to stream, share, and analyze large-scale multi-dimensional microscopy data directly from cloud storage without needing to download entire terabyte-sized datasets.
+
+## Summary of standard image formats used in this lesson
 
 The following table summarises the characteristics of the BMP, JPEG, and TIFF
 image formats:
